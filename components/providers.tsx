@@ -11,5 +11,14 @@ interface Props {
 }
 
 export function Providers({ children }: Props) {
-  return <>{children}</>
+  return (
+    <>
+      <CartProvider 
+      currency="USD"
+      shouldPersist
+      cartMode="checkout-session"
+      
+      >{children}</CartProvider>
+    </>
+  )
 }

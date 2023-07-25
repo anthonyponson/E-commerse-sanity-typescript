@@ -9,7 +9,9 @@ import { SiteBlob } from "@/components/site-blob"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 
-export const metadata: Metadata = {}
+export const metadata: Metadata = {
+  title: "Ecommerse",
+}
 
 interface RootLayoutProps {
   children: React.ReactNode
@@ -26,9 +28,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
             fontSans.variable
           )}
         >
-          <div className="relative flex min-h-screen flex-col">
-            <div className="flex-1">{children}</div>
-          </div>
+          <Providers>
+            <div className="relative flex min-h-screen flex-col">
+              <SiteHeader />
+              <div className="flex-1">{children}</div>
+              <SiteFooter />
+            </div>
+          </Providers>
         </body>
       </html>
     </>
