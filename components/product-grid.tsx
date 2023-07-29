@@ -38,14 +38,23 @@ export function ProductGrid({ products }: Props) {
           <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg border-2 border-gray-200 bg-gray-100 group-hover:opacity-75 dark:border-gray-800">
             <Image
               src={urlForImage(product.images[0]).url()}
+              placeholder="blur"
+              blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                shimmer(225, 280)
+              )}`}
               alt={product.name}
               width={100}
               height={100}
               className="h-full w-full object-cover object-center"
             />
           </div>
-          <h3 className="mt-4 font-medium">Name</h3>
-          <p className="mt-2 font-medium">Price</p>
+          <h3 className="mt-4 font-medium">{product.name}</h3>
+          <p className="mt-2 font-medium">
+            {formatCurrencyString({
+              currency: product.currency,
+              value: product.price,
+            })}
+          </p>
         </Link>
       ))}
     </div>
