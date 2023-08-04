@@ -10,20 +10,28 @@ import { ProductGrid } from "@/components/product-grid"
 import { ProductSort } from "@/components/product-sort"
 
 interface Props {
-  searchParams:{
-    date?:string
-    price?:string
+  searchParams: {
+    date?: string
+    price?: string
+    category?: string
+    search?:string
   }
 }
 
-export default async function Page({searchParams}: Props) {
-  console.log(searchParams, 'sbdkhbsj')
-  const priceOrder = searchParams.price ? `| order(price ${searchParams.price})` : ''
-  const dateOrder = searchParams.date ? `| order(_createdAt ${searchParams.date})` : ''
+export default async function Page({ searchParams }: Props) {
+  const { date = "desc",price, category, search } = searchParams
 
+  const priceOrder = price ? `| order(price ${price})` : ""
+  const dateOrder = date ? `| order(_createdAt ${date})` : ""
   const order = `${priceOrder} ${dateOrder}`
+
+  const productFilter = `_type == 'product'`
+  const categoryFilter = category ? `&& '${category}' in categories` : ""
+  const searchFilter = search ? `&& name match '${search}'` : ''
+  const filter = `*[${productFilter} ${categoryFilter} ${searchFilter}]`
+
   const products = await client.fetch<SanityProduct[]>(
-    groq`*[_type == "product"] ${order} {
+    groq`${filter} ${order} {
       _id,
       _createdAt,
       name,
