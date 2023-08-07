@@ -14,14 +14,16 @@ export function SiteHeader() {
   const pathname = usePathname()
   const router = useRouter()
   const searchParams = useSearchParams()
-  
+
+  const { cartCount } = useShoppingCart()
+
   const defaultSearchQuery = searchParams.get("search") ?? ""
   if (pathname.startsWith("/studio")) return null
 
   function submitForm(event: React.SyntheticEvent<HTMLFormElement>) {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
-    const searchQuery = formData.get('search')
+    const searchQuery = formData.get("search")
     router.replace(`/?search=${searchQuery}`)
   }
   return (
@@ -46,7 +48,7 @@ export function SiteHeader() {
           <Link href="/cart">
             <Button size="sm" variant="ghost">
               <ShoppingBag className="h-5 w-5" />
-              <span className="ml-2 text-sm font-bold">0</span>
+              <span className="ml-2 text-sm font-bold">{cartCount}</span>
               <span className="sr-only">Cart</span>
             </Button>
           </Link>

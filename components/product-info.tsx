@@ -15,12 +15,27 @@ interface Props {
 }
 
 export function ProductInfo({ product }: Props) {
-  const { addItem, cartDetails } = useShoppingCart()
+  const { addItem, incrementItem, cartDetails } = useShoppingCart()
   const isInCart = cartDetails?.[product._id]
+  const { toast } = useToast()
+
   function addToCart() {
     const item = {
       ...product,
     }
+    isInCart ? incrementItem(item._id) : addItem(item)
+    toast({
+      title: `${item.name}`,
+      description: "product added to cart",
+      action: (
+        <Link href="/cart">
+          <Button variant="link" className="gap-x-2 whitespace-nowrap">
+            <span>open cart</span>
+            <ArrowRight className='h-5 w-5' />
+          </Button>
+        </Link>
+      ),
+    })
   }
 
   return (
